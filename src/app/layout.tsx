@@ -1,5 +1,28 @@
 import type { Metadata } from "next";
+import { Sora, DM_Serif_Display, Nunito } from "next/font/google";
 import "./globals.css";
+
+const sora = Sora({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-sora",
+  display: "swap",
+});
+
+const dmSerifDisplay = DM_Serif_Display({
+  subsets: ["latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  variable: "--font-dm-serif",
+  display: "swap",
+});
+
+const nunito = Nunito({
+  subsets: ["latin"],
+  weight: ["800"],
+  variable: "--font-nunito",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "LampInvite",
@@ -12,8 +35,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="pt-BR">
-      <body>{children}</body>
+    <html
+      lang="pt-BR"
+      className={`${sora.variable} ${dmSerifDisplay.variable} ${nunito.variable}`}
+    >
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
