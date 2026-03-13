@@ -4,6 +4,7 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import DeleteEventButton from "./delete-button";
+import SignOutButton from "./signout-button";
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -29,14 +30,7 @@ export default async function DashboardPage() {
             <span className="text-sm text-gray-500 hidden sm:block">
               {user.email}
             </span>
-            <form action="/auth/signout" method="post">
-              <button
-                type="submit"
-                className="text-sm text-gray-600 border border-gray-300 px-3 py-1.5 rounded-lg hover:bg-gray-50"
-              >
-                Sair
-              </button>
-            </form>
+            <SignOutButton />
           </div>
         </div>
       </header>
