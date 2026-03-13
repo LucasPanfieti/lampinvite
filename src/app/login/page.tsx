@@ -23,7 +23,8 @@ export default function LoginPage() {
       if (error) {
         setMessage(error.message);
       } else {
-        setMessage("Verifique seu email para confirmar o cadastro!");
+        router.push("/dashboard");
+        router.refresh();
       }
     } else {
       const { error } = await supabase.auth.signInWithPassword({
