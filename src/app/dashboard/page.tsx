@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import DeleteEventButton from "./delete-button";
@@ -25,7 +26,25 @@ export default async function DashboardPage() {
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="max-w-4xl mx-auto flex justify-between items-center">
-          <h1 className="text-xl font-bold text-gray-900">🎉 LampInvite</h1>
+          <div className="flex items-center gap-1">
+            <Image
+              src="/logo_lampinvite.webp"
+              alt="LampInvite"
+              width={48}
+              height={48}
+              className="rounded-lg"
+            />
+            <span
+              className="text-xl"
+              style={{
+                fontFamily: "var(--font-nunito), sans-serif",
+                fontWeight: 800,
+              }}
+            >
+              <span style={{ color: "#1e1b4b" }}>Lamp</span>
+              <span style={{ color: "#F97316" }}>Invite</span>
+            </span>
+          </div>
           <div className="flex items-center gap-3">
             <span className="text-sm text-gray-500 hidden sm:block">
               {user.email}
@@ -40,7 +59,7 @@ export default async function DashboardPage() {
           <h2 className="text-lg font-semibold text-gray-800">Meus Eventos</h2>
           <Link
             href="/dashboard/new"
-            className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
+            className="bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors"
           >
             + Novo Evento
           </Link>
@@ -55,7 +74,7 @@ export default async function DashboardPage() {
             <p className="text-sm mt-1">Crie seu primeiro evento agora!</p>
             <Link
               href="/dashboard/new"
-              className="inline-block mt-4 bg-blue-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-blue-700"
+              className="inline-block mt-4 bg-orange-500 text-white text-sm px-4 py-2 rounded-lg hover:bg-orange-600"
             >
               Criar evento
             </Link>

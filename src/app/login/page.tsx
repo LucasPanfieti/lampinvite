@@ -1,8 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import { Mail, Lock } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -44,11 +46,32 @@ export default function LoginPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-        <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold text-gray-900">🎉 LampInvite</h1>
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-sm border border-gray-200 p-8">
+        <div className="mb-6 ">
+          <div className="flex items-center gap-1 mb-6">
+            <Image
+              src="/logo_lampinvite.webp"
+              alt="LampInvite"
+              width={48}
+              height={48}
+              className="rounded-lg"
+            />
+            <span
+              className="text-xl"
+              style={{
+                fontFamily: "var(--font-nunito), sans-serif",
+                fontWeight: 800,
+              }}
+            >
+              <span style={{ color: "#1e1b4b" }}>Lamp</span>
+              <span style={{ color: "#F97316" }}>Invite</span>
+            </span>
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {isSignUp ? "Crie sua conta grátis ⚡" : "Bem-vindo de volta 👋"}
+          </h1>
           <p className="text-gray-500 mt-1 text-sm">
-            {isSignUp ? "Crie sua conta" : "Entre na sua conta"}
+            {isSignUp ? "Pronto em segundos" : "Entre na sua conta LampInvite"}
           </p>
         </div>
 
@@ -60,15 +83,20 @@ export default function LoginPage() {
             >
               Email
             </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="seu@email.com"
-            />
+
+            <div className="relative">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                className="w-full border border-gray-300 rounded-lg pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                placeholder="seu@email.com"
+              />
+            </div>
           </div>
 
           <div>
@@ -78,16 +106,21 @@ export default function LoginPage() {
             >
               Senha
             </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              minLength={6}
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Mínimo 6 caracteres"
-            />
+
+            <div className="relative">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                minLength={6}
+                className="w-full border border-gray-300 rounded-lg pl-9 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-orange-500"
+                placeholder="Mínimo 6 caracteres"
+              />
+            </div>
           </div>
 
           {message && (
@@ -105,7 +138,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium py-2 px-4 rounded-lg text-sm transition-colors"
+            className="w-full bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white font-semibold py-3 px-4 rounded-xl text-sm transition-colors"
           >
             {loading ? "Aguarde..." : isSignUp ? "Criar conta" : "Entrar"}
           </button>
@@ -116,11 +149,23 @@ export default function LoginPage() {
               setIsSignUp(!isSignUp);
               setMessage("");
             }}
-            className="w-full text-sm text-gray-500 hover:text-gray-700 py-1"
+            className="w-full text-sm py-1"
           >
-            {isSignUp
-              ? "Já tenho uma conta → Entrar"
-              : "Não tenho conta → Criar conta"}
+            {isSignUp ? (
+              <>
+                <span className="text-gray-500">Já tem conta? </span>
+                <span className="text-orange-500 hover:text-orange-600 font-semibold">
+                  Entrar
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="text-gray-500">Não tem conta? </span>
+                <span className="text-orange-500 hover:text-orange-600 font-semibold">
+                  Criar conta
+                </span>
+              </>
+            )}
           </button>
         </form>
       </div>

@@ -1,48 +1,48 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 function generateSlug(title: string): string {
   const base = title
     .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '')
-  return `${base}-${Date.now().toString(36)}`
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+  return `${base}-${Date.now().toString(36)}`;
 }
 
 export default function NewEventPage() {
-  const router = useRouter()
-  const supabase = createClient()
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const router = useRouter();
+  const supabase = createClient();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setLoading(true)
-    setError('')
+    e.preventDefault();
+    setLoading(true);
+    setError("");
 
-    const form = new FormData(e.currentTarget)
+    const form = new FormData(e.currentTarget);
 
     const {
       data: { user },
-    } = await supabase.auth.getUser()
+    } = await supabase.auth.getUser();
 
     if (!user) {
-      router.push('/login')
-      return
+      router.push("/login");
+      return;
     }
 
-    const title = form.get('title') as string
-    const description = form.get('description') as string
-    const date = form.get('date') as string
-    const location_name = form.get('location_name') as string
-    const location_address = form.get('location_address') as string
-    const max_guests_raw = form.get('max_guests') as string
+    const title = form.get("title") as string;
+    const description = form.get("description") as string;
+    const date = form.get("date") as string;
+    const location_name = form.get("location_name") as string;
+    const location_address = form.get("location_address") as string;
+    const max_guests_raw = form.get("max_guests") as string;
 
     const payload: Record<string, unknown> = {
       user_id: user.id,
@@ -52,21 +52,21 @@ export default function NewEventPage() {
       location_name,
       location_address,
       slug: generateSlug(title),
+    };
+
+    if (max_guests_raw && max_guests_raw !== "") {
+      payload.max_guests = Number(max_guests_raw);
     }
 
-    if (max_guests_raw && max_guests_raw !== '') {
-      payload.max_guests = Number(max_guests_raw)
-    }
-
-    const { error: err } = await supabase.from('events').insert(payload)
+    const { error: err } = await supabase.from("events").insert(payload);
 
     if (err) {
-      setError(err.message)
-      setLoading(false)
+      setError(err.message);
+      setLoading(false);
     } else {
-      router.push('/dashboard')
+      router.push("/dashboard");
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -192,9 +192,9 @@ export default function NewEventPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50 text-white font-medium px-5 py-2 rounded-lg text-sm transition-colors"
+                className="bg-orange-500 hover:bg-orange-600 disabled:opacity-50 text-white font-medium px-5 py-2 rounded-lg text-sm transition-colors"
               >
-                {loading ? 'Criando...' : 'Criar evento'}
+                {loading ? "Criando..." : "Criar evento"}
               </button>
               <Link
                 href="/dashboard"
@@ -207,5 +207,5 @@ export default function NewEventPage() {
         </div>
       </main>
     </div>
-  )
+  );
 }
